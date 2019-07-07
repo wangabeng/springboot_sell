@@ -1,8 +1,12 @@
 spring:
-	datasource:
-		driver-class-name: com.mysql.jdbc.driver
-		user: bff459feb0b197
-		password: 9babfc40
-		url: us-cdbr-iron-east-02.cleardb.net/heroku_7f8b04b60249ef5?reconnect=true
-	jpa:
-		show-sql: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: bff459feb0b197
+    password: 9babfc40
+    url: jdbc:mysql://us-cdbr-iron-east-02.cleardb.net:3306/heroku_7f8b04b60249ef5?autoReconnect=true&useUnicode=true&characterEncoding=utf-8
+  jpa:
+    show-sql:true
+logging:
+  pattern:
+    console: "%d - %msg%n"
+  path: d:/

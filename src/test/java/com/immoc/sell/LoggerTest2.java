@@ -13,8 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 public class LoggerTest2 {
 	@Test
 	public void test2 () {
-		 log.debug("debug---");
+		/* log.debug("debug---");
 		 log.info("info--据阿姐啊-");
-		 log.error("error---");
+		 log.error("error---");*/
 	}
 }

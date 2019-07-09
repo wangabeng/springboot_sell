@@ -28,18 +28,18 @@ public class ProductCategoryRepositoryTest {
 		System.out.print(productCategory.toString());
 	}
 	
-	/*@Test
+	@Test
 	public void saveTest () { // 测试插入数据
 		ProductCategory productCategory = new ProductCategory();
-		productCategory.setCategoryName("儿子最爱3");
-		productCategory.setCategoryType(new Integer(3));
+		productCategory.setCategoryName("yueliang最爱5");
+		productCategory.setCategoryType(new Integer(8));
 		System.out.print("插入是否成功 duanyan");
 		
 		// 断言测试
 		ProductCategory result = repository.save(productCategory);
 		
 		Assert.assertNotEquals(null, result);
-	}*/
+	}
 	
 	/*@Test
 	public void udateTest () { // 测试更新数据

@@ -24,7 +24,7 @@ public class ProductCategory {
 	private Date updateTime;
 	
 	public ProductCategory() {
-		super();
+		// super();
 		// TODO Auto-generated constructor stub
 	}
 	public Date getCreateTime() {

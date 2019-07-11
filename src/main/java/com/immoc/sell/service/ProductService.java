@@ -9,7 +9,7 @@ import com.immoc.sell.dataobject.ProductInfo;
 
 public interface ProductService {
 	ProductInfo findOne(String productId);
-	List<ProductInfo> findAll();
+	List<ProductInfo> findUpAll();
 	Page<ProductInfo> findAll(Pageable pageable);
 	ProductInfo save(ProductInfo productInfo);
 }

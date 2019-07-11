@@ -10,3 +10,6 @@ logging:
   pattern:
     console: "%d - %msg%n"
   path: d:/
+server: 
+  servlet: 
+    context-path: /sell

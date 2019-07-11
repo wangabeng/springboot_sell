@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<ProductInfo> findAll() {
+	public List<ProductInfo> findUpAll() {
 		// TODO Auto-generated method stub
 		return repository.findByProductStatus(ProductStatusEnum.UP.getCode());
 	}

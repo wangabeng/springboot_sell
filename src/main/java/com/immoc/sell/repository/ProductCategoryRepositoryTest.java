@@ -55,6 +55,7 @@ public class ProductCategoryRepositoryTest {
 		
 		List<Integer> list = Arrays.asList(2, 3, 4, 5);
 		List<ProductCategory> result = repository.findByCategoryTypeIn(list);
+		System.out.print("result:" + result);
 		System.out.println(result.size() + "result.size()");
 		// 集合元素大于0 就成功
 		Assert.assertNotEquals(0, result.size());

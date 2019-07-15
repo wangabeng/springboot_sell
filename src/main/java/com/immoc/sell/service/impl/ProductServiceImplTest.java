@@ -30,6 +30,7 @@ public class ProductServiceImplTest {
 	@Test
 	public void findUpAll() throws Exception {
 		List<ProductInfo> productInfoList = productService.findUpAll();
+		System.out.print("productInfoList:" + productInfoList);
 		Assert.assertNotEquals(0, productInfoList.size());
 	}
 	

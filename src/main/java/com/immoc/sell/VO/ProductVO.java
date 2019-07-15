@@ -8,7 +8,7 @@ public class ProductVO {
 	@JsonProperty("name")
 	private String categoryName;
 	@JsonProperty("type")
-	private String categoryType;
+	private Integer categoryType;
 	@JsonProperty("foods")
 	private List<ProductInfoVO> productInfoVOList;
 	
@@ -18,10 +18,10 @@ public class ProductVO {
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-	public String getCategoryType() {
+	public Integer getCategoryType() {
 		return categoryType;
 	}
-	public void setCategoryType(String categoryType) {
+	public void setCategoryType(Integer categoryType) {
 		this.categoryType = categoryType;
 	}
 	public List<ProductInfoVO> getProductInfoVOList() {

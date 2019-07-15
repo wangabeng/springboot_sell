@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,33 +41,33 @@ public class BuyerProductController {
 		List<ProductCategory> productCategoryList = categoryService.findByCategoryTypeIn(categoryTypeList);
 		
 		// 3 数据拼装
+		List<ProductVO> productVOList = new ArrayList<>();
+		for (ProductCategory productCategory: productCategoryList) {
+			// 设置外层数据
+			ProductVO productVO = new ProductVO();
+			productVO.setCategoryType(productCategory.getCategoryType());
+			productVO.setCategoryName(productCategory.getCategoryName());
+			
+			// 设置单个属性值位json集合
+			List<ProductInfoVO> productInfoVOList = new ArrayList<>();
+			// 遍历集合内的每个产品对象
+			
+			for (ProductInfo productInfo: productInfoList) {
+				if (productInfo.getCategoryType().equals(productCategory.getCategoryType())) {
+					ProductInfoVO productInfoVO = new ProductInfoVO();
+					BeanUtils.copyProperties(productInfo, productInfoVO);
+					productInfoVOList.add(productInfoVO);
+				}
+			}
+			productVO.setProductInfoVOList(productInfoVOList);
+			productVOList.add(productVO);
+		} 
 		
 		ResultVO resultVO = new ResultVO();
 		resultVO.setCode(0);
 		resultVO.setMsg("成功");
-
-		ProductInfoVO productInfoVO = new ProductInfoVO();
-
-		ProductVO productVO = new ProductVO();
-		productVO.setProductInfoVOList(Arrays.asList(productInfoVO, productInfoVO));
-
-		resultVO.setData(Arrays.asList(productVO));
+		resultVO.setData(productVOList);
 
 		return resultVO;
 	}
 }
-
-
-/*
-ProductInfo集合
-[
-	ProductInfo [productId=123444, productName=皮蛋粥, productPrice=3.20, productStock=100, productDescription=非常好喝的粥, productIcon=http://baidu.com/dddd, productStatus=0, categoryType=2], 
-	ProductInfo [productId=5678, productName=虾米, productPrice=3.20, productStock=10, productDescription=虾虾, productIcon=http://baidu.com/, productStatus=0, categoryType=1]
-]
-
-ProductCategory集合
-[
-	ProductCategory [categoryId=1, categoryName=男生最好, categoryType=2], 
-	ProductCategory [categoryId=8, categoryName=女生最爱2, categoryType=4], 
-	ProductCategory [categoryId=9, categoryName=儿子最爱3, categoryType=3]
-]*/

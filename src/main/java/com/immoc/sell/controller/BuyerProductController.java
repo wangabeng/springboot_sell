@@ -17,6 +17,7 @@ import com.immoc.sell.dataobject.ProductCategory;
 import com.immoc.sell.dataobject.ProductInfo;
 import com.immoc.sell.service.CategoryService;
 import com.immoc.sell.service.ProductService;
+import com.immoc.sell.utils.ResultVOUtil;
 
 @RestController
 @RequestMapping("/buyer/product")
@@ -63,11 +64,13 @@ public class BuyerProductController {
 			productVOList.add(productVO);
 		} 
 		
-		ResultVO resultVO = new ResultVO();
+		/*ResultVO resultVO = new ResultVO();
 		resultVO.setCode(0);
 		resultVO.setMsg("成功");
 		resultVO.setData(productVOList);
+		return resultVO;*/
+		return ResultVOUtil.success(productVOList);
 
-		return resultVO;
+		
 	}
 }

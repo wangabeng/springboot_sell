@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.immoc.sell.dataobject.OrderDetail;
 
-public interface OderDetailRepository extends JpaRepository<OrderDetail, String> {
+public interface OrderDetailRepository extends JpaRepository<OrderDetail, String> {
 	List<OrderDetail> findByOrderId(String orderId);
 }

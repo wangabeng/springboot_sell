@@ -17,7 +17,7 @@ import com.immoc.sell.dataobject.OrderDetail;
 @SpringBootTest
 public class OderDetailRepositoryTest {
 	@Autowired
-	private OderDetailRepository repository;
+	private OrderDetailRepository repository;
 	
 	@Test
 	public void saveTest () {

@@ -16,6 +16,8 @@ import com.immoc.sell.dataobject.OrderMaster;
 import com.immoc.sell.dataobject.ProductInfo;
 import com.immoc.sell.dto.CartDTO;
 import com.immoc.sell.dto.OrderDTO;
+import com.immoc.sell.enums.OrderStatusEnum;
+import com.immoc.sell.enums.PayStatusEnum;
 import com.immoc.sell.enums.ResultEnum;
 import com.immoc.sell.exception.SellException;
 import com.immoc.sell.repository.OrderDetailRepository;
@@ -55,12 +57,13 @@ public class OrderServiceImpl implements OrderService {
 				throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
 			}
 			// 2 计算订单总价
-			orderAmount = orderDetail.getProductPrice().multiply(new BigDecimal(orderDetail.getProductQuantity()).add(orderAmount));
+			orderAmount = productInfo.getProductPrice().multiply(new BigDecimal(orderDetail.getProductQuantity()).add(orderAmount));
 
 			// 订单详情入库
+			BeanUtils.copyProperties(productInfo, orderDetail);
 			orderDetail.setDetailId(orderId);
 			orderDetail.setOrderId(orderId);
-			BeanUtils.copyProperties(productInfo, orderDetail);
+			
 			orderDetailRepository.save(orderDetail);
 			
 			// 创建购物车列表
@@ -69,10 +72,13 @@ public class OrderServiceImpl implements OrderService {
 		}
 		
 		// 3 写入订单库
+		BeanUtils.copyProperties(orderDTO, orderMaster);
 		OrderMaster orderMaster = new OrderMaster();
 		orderMaster.setOrderId(orderId);
 		orderMaster.setOrderAmount(orderAmount);
-		BeanUtils.copyProperties(orderDTO, orderMaster);
+		orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
+		orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
+		
 		orderMasterRepository.save(orderMaster);
 		
 		// 扣库存

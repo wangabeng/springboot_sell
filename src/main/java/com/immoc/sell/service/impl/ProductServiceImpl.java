@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.immoc.sell.dataobject.ProductInfo;
 import com.immoc.sell.dto.CartDTO;
 import com.immoc.sell.enums.ProductStatusEnum;
+import com.immoc.sell.enums.ResultEnum;
+import com.immoc.sell.exception.SellException;
 import com.immoc.sell.repository.ProductInfoRepository;
 import com.immoc.sell.service.ProductService;
 
@@ -18,7 +19,7 @@ import com.immoc.sell.service.ProductService;
 public class ProductServiceImpl implements ProductService {
 	@Autowired
 	private ProductInfoRepository repository;
-	
+
 	@Override
 	public ProductInfo findOne(String productId) {
 		// TODO Auto-generated method stub
@@ -43,19 +44,30 @@ public class ProductServiceImpl implements ProductService {
 		return repository.save(productInfo);
 	}
 
-	// 加库存
 	@Override
-	@Transactional
 	public void increaseStock(List<CartDTO> cartDTOList) {
 		// TODO Auto-generated method stub
-		ProductInfo productInfo = repository.findOne(cartDTO.getProductId());
-		
+
 	}
 
+	// 减库存
 	@Override
-	public void decreaseStock() {
+	public void decreaseStock(List<CartDTO> cartDTOList) {
 		// TODO Auto-generated method stub
-		
+		for (CartDTO cartDTO : cartDTOList) {
+			// cartDTO.getProductId()
+			ProductInfo productInfo = repository.findById(cartDTO.getProductId()).get();
+			if (productInfo == null) {
+				throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
+			}
+			Integer result = productInfo.getProductStock() - cartDTO.getProductQuantity();
+			
+			if (result < 0) {
+				throw new SellException(ResultEnum.PRODUCT_STOCK_ERROR);
+			}
+			productInfo.setProductStock(result);
+			repository.save(productInfo);
+		}
 	}
 
 }

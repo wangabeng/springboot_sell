@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 		orderMasterRepository.save(orderMaster);
 		
 		// 扣库存
-		
+		productService.decreaseStock(cartDTOList);
 
 		return null;
 	}

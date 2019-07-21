@@ -17,5 +17,5 @@ public interface ProductService {
 	void increaseStock(List<CartDTO> cartDTOList);
 	
 	// 减库存
-	void decreaseStock();
+	void decreaseStock(List<CartDTO> cartDTOList);
 }

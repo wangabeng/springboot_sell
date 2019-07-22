@@ -34,8 +34,6 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
 
-	@Autowired
-	private OrderMaster orderMaster;
 	
 	@Autowired
 	private OrderMasterRepository orderMasterRepository;
@@ -51,7 +49,9 @@ public class OrderServiceImpl implements OrderService {
 
 		// 1 查询商品的数量价格
 		for (OrderDetail orderDetail : orderDTO.getOrderDetailList()) {
-			ProductInfo productInfo = productService.findOne(orderDetail.getProductIcon());
+			System.out.println("进入for循环"+orderDetail);
+			ProductInfo productInfo = productService.findOne(orderDetail.getProductId());
+			System.out.println("productInfo值："+productInfo);
 			if (productInfo == null) {
 				// 需要定义异常及枚举类
 				throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
@@ -65,6 +65,7 @@ public class OrderServiceImpl implements OrderService {
 			orderDetail.setOrderId(orderId);
 			
 			orderDetailRepository.save(orderDetail);
+			System.out.println("入库后的订单详情orderDetail：" + orderDetail);
 			
 			// 创建购物车列表
 			CartDTO cartDTO = new CartDTO(orderDetail.getProductId(), orderDetail.getProductQuantity());
@@ -72,8 +73,8 @@ public class OrderServiceImpl implements OrderService {
 		}
 		
 		// 3 写入订单库
-		BeanUtils.copyProperties(orderDTO, orderMaster);
 		OrderMaster orderMaster = new OrderMaster();
+		BeanUtils.copyProperties(orderDTO, orderMaster);		
 		orderMaster.setOrderId(orderId);
 		orderMaster.setOrderAmount(orderAmount);
 		orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());

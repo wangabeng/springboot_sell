@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -11,6 +12,7 @@ import com.immoc.sell.enums.OrderStatusEnum;
 import com.immoc.sell.enums.PayStatusEnum;
 
 @Entity
+@Table(name="order_master")
 @DynamicUpdate
 public class OrderMaster {
 	@Id
@@ -38,12 +40,12 @@ public class OrderMaster {
 		this.orderId = orderId;
 	}
 
-	public String getBuyderName() {
+	public String getBuyerName() {
 		return buyerName;
 	}
 
-	public void setBuyderName(String buyderName) {
-		this.buyerName = buyderName;
+	public void setBuyerName(String buyerName) {
+		this.buyerName = buyerName;
 	}
 
 	public String getBuyerPhone() {
@@ -54,20 +56,20 @@ public class OrderMaster {
 		this.buyerPhone = buyerPhone;
 	}
 
-	public String getBuyderAddress() {
+	public String getBuyerAddress() {
 		return buyerAddress;
 	}
 
-	public void setBuyderAddress(String buyderAddress) {
-		this.buyerAddress = buyderAddress;
+	public void setBuyerAddress(String buyerAddress) {
+		this.buyerAddress = buyerAddress;
 	}
 
-	public String getBuyderOpenid() {
+	public String getBuyerOpenid() {
 		return buyerOpenid;
 	}
 
-	public void setBuyderOpenid(String buyderOpenid) {
-		this.buyerOpenid = buyderOpenid;
+	public void setBuyerOpenid(String buyerOpenid) {
+		this.buyerOpenid = buyerOpenid;
 	}
 
 	public BigDecimal getOrderAmount() {
@@ -96,10 +98,17 @@ public class OrderMaster {
 
 	@Override
 	public String toString() {
-		return "OrderMaster [orderId=" + orderId + ", buyderName=" + buyerName + ", buyerPhone=" + buyerPhone
-				+ ", buyderAddress=" + buyerAddress + ", buyderOpenid=" + buyerOpenid + ", orderAmount=" + orderAmount
+		return "OrderMaster [orderId=" + orderId + ", buyerName=" + buyerName + ", buyerPhone=" + buyerPhone
+				+ ", buyerAddress=" + buyerAddress + ", buyerOpenid=" + buyerOpenid + ", orderAmount=" + orderAmount
 				+ ", orderStatus=" + orderStatus + ", payStatus=" + payStatus + "]";
 	}
+
+	public OrderMaster() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	
 	
 	
 }

@@ -26,10 +26,10 @@ public class OrderMasterRepositoryTest {
 	public void saveTest () {
 		OrderMaster orderMaster = new OrderMaster();
 		orderMaster.setOrderId("2332323");
-		orderMaster.setBuyderName("WANGwang");
+		orderMaster.setBuyerName("WANGwang");
 		orderMaster.setBuyerPhone("34343234234");
-		orderMaster.setBuyderAddress("湖南");
-		orderMaster.setBuyderOpenid(OPENID);
+		orderMaster.setBuyerAddress("湖南");
+		orderMaster.setBuyerOpenid(OPENID);
 		orderMaster.setOrderAmount(new BigDecimal(2.9));
 		
 		OrderMaster result = repository.save(orderMaster);

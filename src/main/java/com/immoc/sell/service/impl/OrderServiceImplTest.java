@@ -3,6 +3,7 @@ package com.immoc.sell.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.immoc.sell.dataobject.OrderDetail;
 import com.immoc.sell.dto.OrderDTO;
 import com.immoc.sell.service.OrderService;
+
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -40,6 +43,6 @@ public class OrderServiceImplTest {
 		orderDTO.setOrderDetailList(orderDetailList);
 		
 		OrderDTO result = orderService.create(orderDTO);
-		System.out.println(result);
+		Assert.assertNotNull(result);
 	}
 }

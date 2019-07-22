@@ -26,6 +26,8 @@ import com.immoc.sell.service.OrderService;
 import com.immoc.sell.service.ProductService;
 import com.immoc.sell.utils.KeyUtil;
 
+import junit.framework.Assert;
+
 @Service
 public class OrderServiceImpl implements OrderService {
 	@Autowired
@@ -84,6 +86,8 @@ public class OrderServiceImpl implements OrderService {
 		
 		// 扣库存
 		productService.decreaseStock(cartDTOList);
+		
+		
 
 		return null;
 	}

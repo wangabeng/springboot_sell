@@ -23,6 +23,7 @@ public class OrderServiceImplTest {
 	private OrderServiceImpl orderService;
 	
 	private final String BUYER_OPENID = "11002001";
+	private final String ORDER_ID = "1563807175400352565";
 	
 	@Test
 	public void create () throws Exception {
@@ -44,5 +45,11 @@ public class OrderServiceImplTest {
 		
 		OrderDTO result = orderService.create(orderDTO);
 		Assert.assertNotNull(result);
+	}
+	
+	@Test
+	public void findOne() {
+		OrderDTO result = orderService.findOne(ORDER_ID);
+		Assert.assertEquals(ORDER_ID, result.getOrderId());
 	}
 }

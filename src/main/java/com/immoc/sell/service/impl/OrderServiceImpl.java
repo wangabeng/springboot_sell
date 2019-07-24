@@ -60,11 +60,14 @@ public class OrderServiceImpl implements OrderService {
 				throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
 			}
 			// 2 计算订单总价
-			orderAmount = productInfo.getProductPrice().multiply(new BigDecimal(orderDetail.getProductQuantity()).add(orderAmount));
+			orderAmount = productInfo.getProductPrice()
+					.multiply(new BigDecimal(orderDetail.getProductQuantity()))
+					.add(orderAmount);
 
 			// 订单详情入库
 			BeanUtils.copyProperties(productInfo, orderDetail);
-			orderDetail.setDetailId(orderId);
+			// orderDetail.setDetailId(orderId); // 如果这样写，oder_detail表的主键primary key为detail_id, 如果一次主订单购买2个产品，就会产生2条订单详情记录，这两条order_detail记录的order_id是for循环外生成的，如果orderDetail.setDetailId(orderId)设置的detail_id也用这个for循环外层生成的orderId，就会因为主键冲突，导致无法同时插入这两条数据
+			orderDetail.setDetailId(KeyUtil.genUniqueKey()); // 这样写才可以
 			orderDetail.setOrderId(orderId);
 			
 			orderDetailRepository.save(orderDetail);

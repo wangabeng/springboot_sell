@@ -8,6 +8,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.immoc.sell.dataobject.OrderDetail;
@@ -55,5 +58,13 @@ public class OrderServiceImplTest {
 	public void findOne() {
 		OrderDTO result = orderService.findOne(ORDER_ID);
 		Assert.assertEquals(ORDER_ID, result.getOrderId());
+	}
+	
+	@Test
+	public void findList () throws Exception {
+		// PageRequest request = new PageRequest(0, 2);
+		Pageable pageable = PageRequest.of(0,2);
+		Page<OrderDTO> orderDTOPage = orderService.findList(BUYER_OPENID, pageable);
+		Assert.assertNotEquals(0, orderDTOPage.getTotalElements());
 	}
 }

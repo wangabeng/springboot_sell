@@ -7,11 +7,13 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.immoc.sell.converter.OrderMasterToOrderDTOConverter;
 import com.immoc.sell.dataobject.OrderDetail;
 import com.immoc.sell.dataobject.OrderMaster;
 import com.immoc.sell.dataobject.ProductInfo;
@@ -27,7 +29,7 @@ import com.immoc.sell.service.OrderService;
 import com.immoc.sell.service.ProductService;
 import com.immoc.sell.utils.KeyUtil;
 
-import junit.framework.Assert;
+
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -115,9 +117,15 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Page<OrderDTO> fidnList(String buyerOpenid, Pageable pageable) {
+	public Page<OrderDTO> findList(String buyerOpenid, Pageable pageable) {
 		// TODO Auto-generated method stub
-		return null;
+		Page<OrderMaster> orderMasterPage = orderMasterRepository.findByBuyerOpenid(buyerOpenid, pageable);
+		List<OrderDTO> orderDTOList = OrderMasterToOrderDTOConverter.convert(orderMasterPage.getContent());
+		Page<OrderDTO> orderDTOPage = new PageImpl<OrderDTO>(
+				orderDTOList,
+				pageable,
+				orderMasterPage.getTotalElements());
+		return orderDTOPage;
 	}
 
 	@Override

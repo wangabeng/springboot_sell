@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.immoc.sell.dataobject.OrderDetail;
+import com.immoc.sell.enums.OrderStatusEnum;
+import com.immoc.sell.enums.PayStatusEnum;
 
 
 
@@ -21,6 +23,26 @@ public class OrderDTO {
 	private BigDecimal orderAmount;
 	
 	List<OrderDetail> orderDetailList;
+	
+	public Integer getOrderStatus() {
+		return orderStatus;
+	}
+
+	public void setOrderStatus(Integer orderStatus) {
+		this.orderStatus = orderStatus;
+	}
+
+	public Integer getPayStatus() {
+		return payStatus;
+	}
+
+	public void setPayStatus(Integer payStatus) {
+		this.payStatus = payStatus;
+	}
+
+	private Integer orderStatus;
+	
+	private Integer payStatus;
 	
 	// 增加一个属性值 
 

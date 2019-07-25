@@ -3,6 +3,7 @@ package com.immoc.sell.service.impl;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,6 +132,38 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public OrderDTO cancel(OrderDTO orderDTO) {
 		// TODO Auto-generated method stub
+		OrderMaster orderMaster = new OrderMaster();		
+		// 首先判断订单状态
+		if (orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
+			// 打印日志
+			throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
+		}
+		
+		// 修改订单状态
+		orderDTO.setOrderStatus(OrderStatusEnum.CANCEL.getCode());
+		BeanUtils.copyProperties(orderDTO, orderMaster);
+		OrderMaster updateResult = orderMasterRepository.save(orderMaster);
+		if (updateResult == null) {
+			// 打印日志
+			throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
+		}
+		
+		// 返回库存
+		if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {
+			// 打印日志
+			throw new SellException(ResultEnum.ORDER_DETAIL_EMPTY);
+		}
+		List<CartDTO> cartDTOList = orderDTO.getOrderDetailList()
+				.stream()
+				.map(e -> new CartDTO(e.getProductId(), e.getProductQuantity()) )
+				.collect(Collectors.toList());
+		productService.increaseStock(cartDTOList);
+		
+		// 如果已经支付 需要退款
+		if (!orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())) {
+			// TODO
+		}
+		
 		return null;
 	}
 

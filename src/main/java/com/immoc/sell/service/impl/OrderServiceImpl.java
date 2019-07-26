@@ -30,9 +30,8 @@ import com.immoc.sell.service.OrderService;
 import com.immoc.sell.service.ProductService;
 import com.immoc.sell.utils.KeyUtil;
 
-
-
 @Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private ProductService productService;
@@ -40,7 +39,6 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private OrderDetailRepository orderDetailRepository;
 
-	
 	@Autowired
 	private OrderMasterRepository orderMasterRepository;
 
@@ -51,49 +49,49 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		BigDecimal orderAmount = new BigDecimal(0);
 		String orderId = KeyUtil.genUniqueKey();
-		List<CartDTO> cartDTOList = new ArrayList<>(); 
+		List<CartDTO> cartDTOList = new ArrayList<>();
 
 		// 1 查询商品的数量价格
 		for (OrderDetail orderDetail : orderDTO.getOrderDetailList()) {
-			System.out.println("进入for循环"+orderDetail);
+			System.out.println("进入for循环" + orderDetail);
 			ProductInfo productInfo = productService.findOne(orderDetail.getProductId());
-			System.out.println("productInfo值："+productInfo);
+			System.out.println("productInfo值：" + productInfo);
 			if (productInfo == null) {
 				// 需要定义异常及枚举类
 				throw new SellException(ResultEnum.PRODUCT_NOT_EXIST);
 			}
 			// 2 计算订单总价
-			orderAmount = productInfo.getProductPrice()
-					.multiply(new BigDecimal(orderDetail.getProductQuantity()))
+			orderAmount = productInfo.getProductPrice().multiply(new BigDecimal(orderDetail.getProductQuantity()))
 					.add(orderAmount);
 
 			// 订单详情入库
 			BeanUtils.copyProperties(productInfo, orderDetail);
-			// orderDetail.setDetailId(orderId); // 如果这样写，oder_detail表的主键primary key为detail_id, 如果一次主订单购买2个产品，就会产生2条订单详情记录，这两条order_detail记录的order_id是for循环外生成的，如果orderDetail.setDetailId(orderId)设置的detail_id也用这个for循环外层生成的orderId，就会因为主键冲突，导致无法同时插入这两条数据
+			// orderDetail.setDetailId(orderId); // 如果这样写，oder_detail表的主键primary
+			// key为detail_id,
+			// 如果一次主订单购买2个产品，就会产生2条订单详情记录，这两条order_detail记录的order_id是for循环外生成的，如果orderDetail.setDetailId(orderId)设置的detail_id也用这个for循环外层生成的orderId，就会因为主键冲突，导致无法同时插入这两条数据
 			orderDetail.setDetailId(KeyUtil.genUniqueKey()); // 这样写才可以
 			orderDetail.setOrderId(orderId);
-			
+
 			orderDetailRepository.save(orderDetail);
 			System.out.println("入库后的订单详情orderDetail：" + orderDetail);
-			
+
 			// 创建购物车列表
 			CartDTO cartDTO = new CartDTO(orderDetail.getProductId(), orderDetail.getProductQuantity());
 			cartDTOList.add(cartDTO);
 		}
-		
+
 		// 3 写入订单库
 		OrderMaster orderMaster = new OrderMaster();
-		BeanUtils.copyProperties(orderDTO, orderMaster);		
+		BeanUtils.copyProperties(orderDTO, orderMaster);
 		orderMaster.setOrderId(orderId);
 		orderMaster.setOrderAmount(orderAmount);
 		orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
 		orderMaster.setPayStatus(PayStatusEnum.WAIT.getCode());
-		
+
 		orderMasterRepository.save(orderMaster);
-		
+
 		// 扣库存
 		productService.decreaseStock(cartDTOList);
-		
 
 		return null;
 	}
@@ -109,11 +107,11 @@ public class OrderServiceImpl implements OrderService {
 		if (CollectionUtils.isEmpty(orderDetailList)) {
 			throw new SellException(ResultEnum.ORDERDETAIL_NOT_EXIST);
 		}
-		
+
 		OrderDTO orderDTO = new OrderDTO();
 		BeanUtils.copyProperties(orderMaster, orderDTO);
 		orderDTO.setOrderDetailList(orderDetailList);
-		
+
 		return orderDTO;
 	}
 
@@ -122,9 +120,7 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		Page<OrderMaster> orderMasterPage = orderMasterRepository.findByBuyerOpenid(buyerOpenid, pageable);
 		List<OrderDTO> orderDTOList = OrderMasterToOrderDTOConverter.convert(orderMasterPage.getContent());
-		Page<OrderDTO> orderDTOPage = new PageImpl<OrderDTO>(
-				orderDTOList,
-				pageable,
+		Page<OrderDTO> orderDTOPage = new PageImpl<OrderDTO>(orderDTOList, pageable,
 				orderMasterPage.getTotalElements());
 		return orderDTOPage;
 	}
@@ -132,13 +128,13 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public OrderDTO cancel(OrderDTO orderDTO) {
 		// TODO Auto-generated method stub
-		OrderMaster orderMaster = new OrderMaster();		
+		OrderMaster orderMaster = new OrderMaster();
 		// 首先判断订单状态
 		if (orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
 			// 打印日志
 			throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
 		}
-		
+
 		// 修改订单状态
 		orderDTO.setOrderStatus(OrderStatusEnum.CANCEL.getCode());
 		BeanUtils.copyProperties(orderDTO, orderMaster);
@@ -147,36 +143,71 @@ public class OrderServiceImpl implements OrderService {
 			// 打印日志
 			throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
 		}
-		
+
 		// 返回库存
 		if (CollectionUtils.isEmpty(orderDTO.getOrderDetailList())) {
 			// 打印日志
 			throw new SellException(ResultEnum.ORDER_DETAIL_EMPTY);
 		}
-		List<CartDTO> cartDTOList = orderDTO.getOrderDetailList()
-				.stream()
-				.map(e -> new CartDTO(e.getProductId(), e.getProductQuantity()) )
-				.collect(Collectors.toList());
+		List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()
+				.map(e -> new CartDTO(e.getProductId(), e.getProductQuantity())).collect(Collectors.toList());
 		productService.increaseStock(cartDTOList);
-		
+
 		// 如果已经支付 需要退款
 		if (!orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())) {
 			// TODO
 		}
-		
+
 		return orderDTO;
 	}
 
 	@Override
+	@Transactional
 	public OrderDTO finish(OrderDTO orderDTO) {
 		// TODO Auto-generated method stub
-		return null;
+		// 判断订单状态 订单完结 只针对新订单
+		if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
+			// 打印日志
+			throw new SellException(ResultEnum.ORDER_STATUS_ERROR); // 订单状态不正确
+		}
+		// 修改订单状态
+		orderDTO.setOrderStatus(OrderStatusEnum.FINISHED.getCode());
+		OrderMaster orderMaster = new OrderMaster();
+		BeanUtils.copyProperties(orderDTO, orderMaster);
+		OrderMaster updateResult = orderMasterRepository.save(orderMaster);
+		if (updateResult == null) {
+			// 打印日志
+			throw new SellException(ResultEnum.ORDER_DETAIL_EMPTY);
+		}
+
+		return orderDTO;
 	}
 
 	@Override
 	public OrderDTO paid(OrderDTO orderDTO) {
 		// TODO Auto-generated method stub
-		return null;
+		// 判断订单状态
+		if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
+			// 打印日志
+			throw new SellException(ResultEnum.ORDER_STATUS_ERROR); // 订单状态不正确
+		}
+
+		// 判断支付状态
+		if (!orderDTO.getPayStatus().equals(PayStatusEnum.WAIT.getCode())) {
+			// 打印日志
+			throw new SellException(ResultEnum.ORDER_PAY_STATUS_ERROR); // 订单状态不正确
+		}
+		// 修改支付状态
+		orderDTO.setPayStatus(PayStatusEnum.SUCCESS.getCode());
+		OrderMaster orderMaster = new OrderMaster();
+		BeanUtils.copyProperties(orderDTO, orderMaster);
+		OrderMaster updateResult = orderMasterRepository.save(orderMaster);
+		if (updateResult == null) {
+			// 打印日志
+			throw new SellException(ResultEnum.ORDER_UPDATE_FAIL);
+		}
+
+		return orderDTO;
 	}
 
 }

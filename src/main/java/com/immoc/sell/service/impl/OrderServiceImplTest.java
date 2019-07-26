@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.immoc.sell.dataobject.OrderDetail;
 import com.immoc.sell.dto.OrderDTO;
 import com.immoc.sell.enums.OrderStatusEnum;
+import com.immoc.sell.enums.PayStatusEnum;
 import com.immoc.sell.service.OrderService;
 
 @RunWith(SpringRunner.class)
@@ -76,4 +77,19 @@ public class OrderServiceImplTest {
 		System.out.println(result);
 		Assert.assertEquals(OrderStatusEnum.CANCEL.getCode(), result.getOrderStatus());
 	}
+	
+	@Test
+	public void finish() throws Exception {
+		OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+		OrderDTO result = orderService.finish(orderDTO);
+		Assert.assertEquals(OrderStatusEnum.FINISHED.getCode(), result.getOrderStatus());
+	}
+	
+	@Test
+	public void paid() throws Exception {
+		OrderDTO orderDTO = orderService.findOne(ORDER_ID);
+		OrderDTO result = orderService.paid(orderDTO);
+		Assert.assertEquals(PayStatusEnum.SUCCESS.getCode(), result.getPayStatus());
+	}
+	
 }

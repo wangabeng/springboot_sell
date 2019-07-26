@@ -74,6 +74,6 @@ public class OrderServiceImplTest {
 		OrderDTO orderDTO = orderService.findOne(ORDER_ID);
 		OrderDTO result = orderService.cancel(orderDTO);
 		System.out.println(result);
-		// Assert.assertEquals(OrderStatusEnum.CANCEL.getCode(), result.getOrderStatus());
+		Assert.assertEquals(OrderStatusEnum.CANCEL.getCode(), result.getOrderStatus());
 	}
 }

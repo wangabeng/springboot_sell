@@ -13,3 +13,8 @@ logging:
 server: 
   servlet: 
     context-path: /sell
+  max-http-header-size: 10240000
+  tomcat: 
+    max-http-header-size: 10240000
+    max-http-post-size: 10240000
+    relaxedQueryChars: "[,]"

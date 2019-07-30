@@ -10,7 +10,7 @@ public class OrderForm {
 	@NotEmpty(message="地址必填")
 	private String address;
 	@NotEmpty(message="openId必填")
-	private String openId;
+	private String openid;
 	@NotEmpty(message="购物车不能为空")
 	private String items;
 	public String getName() {
@@ -31,11 +31,11 @@ public class OrderForm {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getOpenId() {
-		return openId;
+	public String getOpenid() {
+		return openid;
 	}
-	public void setOpenId(String openId) {
-		this.openId = openId;
+	public void setOpenid(String openid) {
+		this.openid = openid;
 	}
 	public String getItems() {
 		return items;

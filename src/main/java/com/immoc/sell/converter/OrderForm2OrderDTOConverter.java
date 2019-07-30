@@ -18,7 +18,7 @@ public class OrderForm2OrderDTOConverter {
 		orderDTO.setBuyerName(orderForm.getName());
 		orderDTO.setBuyerPhone(orderForm.getPhone());
 		orderDTO.setBuyerAddress(orderForm.getAddress());
-		orderDTO.setBuyerOpenid(orderForm.getOpenId());
+		orderDTO.setBuyerOpenid(orderForm.getOpenid());
 
 		// 转购物车
 		List<OrderDetail> orderDetailList = new ArrayList<>();

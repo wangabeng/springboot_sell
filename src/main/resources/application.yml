@@ -17,4 +17,3 @@ server:
   tomcat: 
     max-http-header-size: 10240000
     max-http-post-size: 10240000
-    relaxedQueryChars: "[,]"

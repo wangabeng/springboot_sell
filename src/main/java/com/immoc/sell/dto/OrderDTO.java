@@ -22,7 +22,7 @@ public class OrderDTO {
 	
 	private BigDecimal orderAmount;
 	
-	List<OrderDetail> orderDetailList;
+	private List<OrderDetail> orderDetailList;
 	
 	public Integer getOrderStatus() {
 		return orderStatus;

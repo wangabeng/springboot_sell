@@ -93,8 +93,9 @@ public class OrderServiceImpl implements OrderService {
 
 		// 扣库存
 		productService.decreaseStock(cartDTOList);
-
-		return null;
+		
+		// 返回成功的订单orderDTO
+		return orderDTO;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.immoc.sell.dto;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import com.immoc.sell.dataobject.OrderDetail;
@@ -24,6 +25,26 @@ public class OrderDTO {
 	
 	private List<OrderDetail> orderDetailList;
 	
+	private Date createTime;
+	
+	private Date updateTime;
+	
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
 	public Integer getOrderStatus() {
 		return orderStatus;
 	}

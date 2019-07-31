@@ -1,6 +1,7 @@
 package com.immoc.sell.dataobject;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -31,6 +32,27 @@ public class OrderMaster {
 	private Integer orderStatus = OrderStatusEnum.NEW.getCode();
 	
 	private Integer payStatus = PayStatusEnum.WAIT.getCode();
+	
+	private Date createTime;
+	
+	private Date updateTime;
+	
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
 
 	public String getOrderId() {
 		return orderId;

@@ -9,6 +9,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.DynamicUpdate;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.immoc.sell.enums.OrderStatusEnum;
 import com.immoc.sell.enums.PayStatusEnum;
 
@@ -32,9 +33,9 @@ public class OrderMaster {
 	private Integer orderStatus = OrderStatusEnum.NEW.getCode();
 	
 	private Integer payStatus = PayStatusEnum.WAIT.getCode();
-	
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd") 
 	private Date createTime;
-	
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd") 
 	private Date updateTime;
 	
 

@@ -132,7 +132,7 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		OrderMaster orderMaster = new OrderMaster();
 		// 首先判断订单状态
-		if (orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
+		if (!orderDTO.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
 			// 打印日志
 			throw new SellException(ResultEnum.ORDER_STATUS_ERROR);
 		}

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.immoc.sell.dataobject.OrderDetail;
 import com.immoc.sell.enums.OrderStatusEnum;
 import com.immoc.sell.enums.PayStatusEnum;
@@ -24,9 +25,9 @@ public class OrderDTO {
 	private BigDecimal orderAmount;
 	
 	private List<OrderDetail> orderDetailList;
-	
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd") 
 	private Date createTime;
-	
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd") 
 	private Date updateTime;
 	
 	public Date getCreateTime() {

@@ -1,0 +1,18 @@
+测试域名 端口8080
+
+http://nicedevelop.nat300.top/sell/buyer/test/list
+
+快速开启本地服务 进入natapp 目录 win+r 命令行执行
+natapp -authtoken=a1d3684e97ff2447
+
+
+
+1 用户授权方面
+https://mp.weixin.qq.com/wiki?action=doc&id=mp1421140842&t=0.4948913348848454#0
+
+第一步：用户同意授权，获取code
+https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx520c15f417810387&redirect_uri=https%3A%2F%2Fchong.qq.com%2Fphp%2Findex.php%3Fd%3D%26c%3DwxAdapter%26m%3DmobileDeal%26showwxpaytitle%3D1%26vb2ctag%3D4_2030_5_1194_60&response_type=code&scope=snsapi_base&state=123#wechat_redirect
+改成自己的：
+http://nicedevelop.nat300.top/sell/buyer/test/getcode
+
+https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx520c15f417810387&redirect_uri=nicedevelop.nat300.top/sell/buyer/test/getcode&response_type=code&scope=snsapi_base&state=123#wechat_redirect

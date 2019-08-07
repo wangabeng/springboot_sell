@@ -1,5 +1,6 @@
 package com.immoc.sell.controller;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.immoc.sell.VO.ResultVO;
@@ -19,6 +21,11 @@ import com.immoc.sell.repository.OrderDetailRepository;
 import com.immoc.sell.repository.OrderMasterRepository;
 import com.immoc.sell.service.OrderService;
 import com.immoc.sell.utils.ResultVOUtil;
+
+import okhttp3.Credentials;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 @RestController
 @RequestMapping("/buyer/test")
@@ -47,8 +54,35 @@ public class OrderTestController {
 		return resultVO;
 	}
 	@GetMapping("/getcode")
-	public String getCode () {
-		return "good";
+	public String getCode (@RequestParam(value = "code") String code, @RequestParam(value = "state") String state) {
+		// 1 获取code
+		
+		// 2 获取code后，请求以下链接获取access_token：  https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+		
+		// 发送get请求
+		OkHttpClient client1 = new OkHttpClient();
+		
+		// String credential = Credentials.basic("USER", "PASSWORD");
+
+		Request request = new Request.Builder()
+				.url("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxdef38d7055ecb07a&secret=6c8115af3f12f100d3f9e0f45808e153&code=" + code  + "&grant_type=authorization_code")
+				.get()
+				.build();
+
+		try (Response response = client1.newCall(request).execute()) {
+			String secondreq =  response.body().string();
+			return secondreq;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		// 3 获取用户信息 http：GET（请使用https协议） https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
+		
+			
+		
+		
+		return "找不到";
 		
 	}
 	

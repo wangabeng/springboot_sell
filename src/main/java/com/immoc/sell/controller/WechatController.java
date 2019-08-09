@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.immoc.sell.enums.ResultEnum;
+import com.immoc.sell.exception.SellException;
+
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -42,11 +45,13 @@ public class WechatController {
             wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
         } catch (WxErrorException e) {
             // log.info("【微信网页授权】{}", e);
-            throw new Exception(e.getError().getErrorMsg());
+        	// 把错误往外抛
+            throw new SellException(ResultEnum.WECHAT_MP_ERROR.getCode(), e.getError().getErrorMsg());
         }
         System.out.print("wxMpOAuth2AccessToken:" + wxMpOAuth2AccessToken);
         String openId = wxMpOAuth2AccessToken.getOpenId();
         // log.info("【微信网页授权】openId={}", openId);
+        // 拿到opneid后重定向
         return "redirect:" + returnUrl + "?openid=" + openId;
     }
 

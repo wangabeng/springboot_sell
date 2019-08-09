@@ -49,7 +49,7 @@ public class WechatController {
         return "redirect:" + returnUrl + "?openid=" + openId;
     }
 
-    //测试是否获得openid
+    //测试是否获得openid  输入 http://nicedevelop.nat300.top/wechat/authorize?returnUrl=http://nicedevelop.nat300.top/wechat/testOpenid
     @RequestMapping("testOpenid")
     public String testOpenid(@RequestParam("openid")String openid){
         // log.info("获得用户的openid为:{}",openid);

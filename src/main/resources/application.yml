@@ -15,3 +15,6 @@ server:
   tomcat: 
     max-http-header-size: 10240000
     max-http-post-size: 10240000
+wechat:
+  mpAppId: wxdef38d7055ecb07a
+  mpAppSecret: 6c8115af3f12f100d3f9e0f45808e153    

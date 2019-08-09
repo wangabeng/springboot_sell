@@ -80,7 +80,18 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.59</version>
 		</dependency>
-
+		<!--微信授权SDK -->
+		<dependency>
+			<groupId>com.github.binarywang</groupId>
+			<artifactId>weixin-java-mp</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+		<!-- 打印日志 -->
+		<dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
 	</dependencies>
 
 	<build>

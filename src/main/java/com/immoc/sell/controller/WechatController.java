@@ -44,6 +44,7 @@ public class WechatController {
             // log.info("【微信网页授权】{}", e);
             throw new Exception(e.getError().getErrorMsg());
         }
+        System.out.print("wxMpOAuth2AccessToken:" + wxMpOAuth2AccessToken);
         String openId = wxMpOAuth2AccessToken.getOpenId();
         // log.info("【微信网页授权】openId={}", openId);
         return "redirect:" + returnUrl + "?openid=" + openId;

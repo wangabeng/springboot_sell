@@ -14,6 +14,8 @@ public class WechatAccountConfig {
 	private String mchKey;
 	// 商户证书路径
 	private String keyPath;
+	// 预支付订单生成或异步通知地址
+	private String notifyUrl;
 	
 	public String getMpAppId() {
 		return mpAppId;
@@ -44,6 +46,12 @@ public class WechatAccountConfig {
 	}
 	public void setKeyPath(String keyPath) {
 		this.keyPath = keyPath;
+	}
+	public String getNotifyUrl() {
+		return notifyUrl;
+	}
+	public void setNotifyUrl(String notifyUrl) {
+		this.notifyUrl = notifyUrl;
 	}
 	
 }

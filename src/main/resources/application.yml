@@ -21,3 +21,4 @@ wechat:
   mchId: 1518646571
   mchKey: tV7K1SqjzXmxa9qaLNIOo7RHxfAz3Lvg
   keyPath: i:/apiclient_cert.p12
+  notifyUrl: http://nicedevelop.nat300.top/pay/notify

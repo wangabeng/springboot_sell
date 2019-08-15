@@ -21,8 +21,8 @@ public class PayServiceImpl implements PayService {
 	private BestPayService bestPayService; // import导入
 	
 	@Override
-	public void create(OrderDTO orderDTO) {
-		final String ORDER_NAME = "微信点餐系统";
+	public PayResponse create(OrderDTO orderDTO) {
+		final String ORDER_NAME = "点餐测试";
 		
 		PayRequest payRequest = new PayRequest();
 		payRequest.setOpenid(orderDTO.getBuyerOpenid());
@@ -36,6 +36,7 @@ public class PayServiceImpl implements PayService {
 		PayResponse payResponse = bestPayService.pay(payRequest);
 		// logo
 		System.out.println("payResponse" + JsonUtil.toJson(payResponse));
+		return payResponse;
 		
 	}
 }

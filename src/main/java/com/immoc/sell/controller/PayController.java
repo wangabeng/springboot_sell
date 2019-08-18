@@ -5,8 +5,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -44,5 +48,16 @@ public class PayController {
 		map.put("payResponse", payResponse);
 		map.put("returnUrl", returnUrl);
 		return new ModelAndView("pay/create", map);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/notify", method = RequestMethod.POST)
+	public void  notify (@RequestBody String notifyData) {
+		payService.notify(notifyData);
+		// 返回给微信处理结果（用模板引擎返回）
+		System.out.println("将要跳转到：\"pay/success\"");
+		System.out.println("notifyData：" + notifyData); // 此时已经报错 Request method 'GET' not supported
+		// return new ModelAndView("pay/success"); // 问题： 没有执行这一步
+		// return null;
 	}
 }

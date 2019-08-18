@@ -50,8 +50,7 @@ public class PayController {
 		return new ModelAndView("pay/create", map);
 	}
 	
-	@ResponseBody
-	@RequestMapping(value = "/notify", method = RequestMethod.POST)
+	@PostMapping("/notify")
 	public void  notify (@RequestBody String notifyData) {
 		payService.notify(notifyData);
 		// 返回给微信处理结果（用模板引擎返回）

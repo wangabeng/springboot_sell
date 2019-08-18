@@ -50,7 +50,7 @@ public class PayController {
 		return new ModelAndView("pay/create", map);
 	}
 	
-	// @RequestBody String notifyData
+	// 这个controller是由微信在支付完成后根据returnUrl自动发过来的post请求，而不是由前端发起来的
 	//	测试 http://nicedevelop.nat300.top/pay/create?orderId=1564664460087302923&returnUrl=http://nicedevelop.nat300.top/pay/notify
 	@PostMapping("/notify")
 	public ModelAndView  notify(@RequestBody String notifyData) {
@@ -59,7 +59,7 @@ public class PayController {
 		// System.out.println("将要跳转到：\"pay/success\"");
 		System.out.println("notifyData：" + notifyData); // 正常执行
 		// System.out.println("进入/notify了");
-		return new ModelAndView("pay/success"); // 问题： 没有执行这一步
+		return new ModelAndView("pay/success"); // 返回给微信  而不是返回给前端
 
 	}
 }

@@ -54,7 +54,7 @@ public class PayController {
 	//	测试 http://nicedevelop.nat300.top/pay/create?orderId=1564664460087302923&returnUrl=http://nicedevelop.nat300.top/pay/notify
 	@PostMapping("/notify")
 	public ModelAndView  notify(@RequestBody String notifyData) {
-		// payService.notify(notifyData);
+		payService.notify(notifyData);
 		// 返回给微信处理结果（用模板引擎返回）
 		// System.out.println("将要跳转到：\"pay/success\"");
 		System.out.println("notifyData：" + notifyData); // 正常执行

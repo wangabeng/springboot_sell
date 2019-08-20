@@ -13,6 +13,8 @@ import com.immoc.sell.utils.MathUtil;
 import com.lly835.bestpay.enums.BestPayTypeEnum;
 import com.lly835.bestpay.model.PayRequest;
 import com.lly835.bestpay.model.PayResponse;
+import com.lly835.bestpay.model.RefundRequest;
+import com.lly835.bestpay.model.RefundResponse;
 import com.lly835.bestpay.service.BestPayService;
 import com.lly835.bestpay.service.impl.BestPayServiceImpl;
 
@@ -81,5 +83,20 @@ public class PayServiceImpl implements PayService {
 		
 		return payResponse;
 		
+	}
+	
+	@Override
+	public RefundResponse refund(OrderDTO orderDTO) {
+		RefundRequest refundRequest = new RefundRequest();
+		refundRequest.setOrderId(orderDTO.getOrderId());
+		refundRequest.setOrderAmount(orderDTO.getOrderAmount().doubleValue());
+		refundRequest.setPayTypeEnum(BestPayTypeEnum.WXPAY_H5);
+		
+		// 打印日志
+		System.out.println("refundRequest:" + refundRequest);
+		
+		RefundResponse refundResponse = bestPayService.refund(refundRequest);
+		System.out.println("refundResponse:" + refundResponse);
+		return refundResponse;
 	}
 }

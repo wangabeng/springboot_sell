@@ -27,6 +27,7 @@ import com.immoc.sell.exception.SellException;
 import com.immoc.sell.repository.OrderDetailRepository;
 import com.immoc.sell.repository.OrderMasterRepository;
 import com.immoc.sell.service.OrderService;
+import com.immoc.sell.service.PayService;
 import com.immoc.sell.service.ProductService;
 import com.immoc.sell.utils.KeyUtil;
 
@@ -41,6 +42,9 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	private OrderMasterRepository orderMasterRepository;
+	
+	@Autowired
+	private PayService payService;
 
 	// 订单创建
 	@Override
@@ -158,6 +162,7 @@ public class OrderServiceImpl implements OrderService {
 		// 如果已经支付 需要退款
 		if (!orderDTO.getPayStatus().equals(PayStatusEnum.SUCCESS.getCode())) {
 			// TODO
+			payService.refund(orderDTO);
 		}
 
 		return orderDTO;

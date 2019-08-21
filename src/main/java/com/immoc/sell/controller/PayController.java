@@ -44,9 +44,10 @@ public class PayController {
 		PayResponse payResponse = payService.create(orderDTO);
 
 		System.out.println("将要跳转到：pay/create");
-		// 然后把统一下单返回的数据返回到前端 以供支付
+		
 		map.put("payResponse", payResponse);
 		map.put("returnUrl", returnUrl);
+		// 然后把统一下单返回的数据返回到前端  以供支付。前端会发出支付请求 给微信服务器
 		return new ModelAndView("pay/create", map);
 	}
 	

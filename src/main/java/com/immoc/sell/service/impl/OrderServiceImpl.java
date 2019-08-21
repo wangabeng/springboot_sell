@@ -216,5 +216,13 @@ public class OrderServiceImpl implements OrderService {
 
 		return orderDTO;
 	}
-
+	
+	@Override
+	public Page<OrderDTO> findList(Pageable pageable) {
+		Page<OrderMaster> orderMasterPage = orderMasterRepository.findAll(pageable);
+		List<OrderDTO> orderDTOList = OrderMasterToOrderDTOConverter.convert(orderMasterPage.getContent());
+		Page<OrderDTO> orderDTOPage = new PageImpl<OrderDTO>(orderDTOList, pageable,
+				orderMasterPage.getTotalElements());
+		return orderDTOPage;
+	}
 }

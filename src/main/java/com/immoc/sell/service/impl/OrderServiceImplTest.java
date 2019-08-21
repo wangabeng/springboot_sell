@@ -92,4 +92,13 @@ public class OrderServiceImplTest {
 		Assert.assertEquals(PayStatusEnum.SUCCESS.getCode(), result.getPayStatus());
 	}
 	
+	//	卖家查询所有订单
+	@Test
+	public void list() throws Exception {
+		// PageRequest request = new PageRequest(0, 2);
+		Pageable pageable = PageRequest.of(0, 2);
+		Page<OrderDTO> orderDTOPage = orderService.findList(pageable);
+		Assert.assertNotEquals(0, orderDTOPage.getTotalElements());
+	}
+	
 }

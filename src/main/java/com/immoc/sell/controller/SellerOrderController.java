@@ -28,7 +28,10 @@ public class SellerOrderController {
 		Pageable pageable = PageRequest.of(page - 1, size);
 		Page<OrderDTO> orderDTOpage = orderService.findList(pageable);
 		System.out.println("orderDTOpage所有内容:" + orderDTOpage.getContent());
+		System.out.println("orderDTOpage所有页数:" + orderDTOpage.getTotalPages());
 		map.put("orderDTOpage", orderDTOpage);
+		map.put("page", page);
+		map.put("size", size);
 		return new ModelAndView("/order/list", map);
 		
 	}

@@ -5,9 +5,11 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.immoc.sell.dataobject.OrderDetail;
 import com.immoc.sell.enums.OrderStatusEnum;
 import com.immoc.sell.enums.PayStatusEnum;
+import com.immoc.sell.utils.EnumUtil;
 
 
 
@@ -124,5 +126,14 @@ public class OrderDTO {
 		this.orderAmount = orderAmount;
 	}
 	
+	@JsonIgnore
+	public OrderStatusEnum getOrderStatusEnum () {
+		return EnumUtil.getByCode(orderStatus, OrderStatusEnum.class);
+	}
+	@JsonIgnore
+	public PayStatusEnum getPayStatusEnum () {
+		return EnumUtil.getByCode(payStatus, PayStatusEnum.class);
+	}
+
 
 }

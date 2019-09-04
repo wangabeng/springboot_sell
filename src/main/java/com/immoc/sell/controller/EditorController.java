@@ -47,8 +47,8 @@ public class EditorController {
 
 			// 文件名
 			fileName = System.currentTimeMillis() + suffix;
-			// 上传的文件完整路径 包含文件名 D:/upload/ 在配置文件中配置
-			String saveFileName = "D:/upload/" + fileName;
+			// 上传的文件完整路径 包含文件名 D:/upload/ 在配置文件中配置  一般不要放在项目文件夹下
+			String saveFileName = "F:/springboot_sell/src/main/resources/static" + "/article/" + fileName;
 			// 创建文件对象
 			File dest = new File(saveFileName);
 			if (!dest.getParentFile().exists()) { // 判断文件父目录是否存在
@@ -68,9 +68,10 @@ public class EditorController {
 			return new WangEditorResponse("1", "上传出错");
 		}
 		
-		// 上传成功后返回
-        String imgUrl= "D:/upload/" + fileName;
+		// 上传成功后返回 此处应该返回url路径  例如 http://localhost:8080/article/1567494335032.png
+        String imgUrl= "http://localhost:8080" + "/article/" +  fileName; // 坑 一定要加 http://
         System.out.println(imgUrl);
+        // 返回后 图片在前端不能回显
         return new WangEditorResponse("0", imgUrl );
 	}
 

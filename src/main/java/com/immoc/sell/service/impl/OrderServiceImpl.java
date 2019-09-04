@@ -29,6 +29,7 @@ import com.immoc.sell.repository.OrderMasterRepository;
 import com.immoc.sell.service.OrderService;
 import com.immoc.sell.service.PayService;
 import com.immoc.sell.service.ProductService;
+//import com.immoc.sell.service.WebSocket;
 import com.immoc.sell.utils.KeyUtil;
 
 @Service
@@ -45,6 +46,10 @@ public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
 	private PayService payService;
+	
+	/*
+	 * @Autowired private WebSocket webSocket;
+	 */
 
 	// 订单创建
 	@Override
@@ -95,8 +100,11 @@ public class OrderServiceImpl implements OrderService {
 
 		orderMasterRepository.save(orderMaster);
 
-		// 扣库存
+		// 4 扣库存
 		productService.decreaseStock(cartDTOList);
+		
+		// 发送websocket消息到客户端
+		// webSocket.sendMessage("有新的订单");
 		
 		// 返回成功的订单orderDTO
 		return orderDTO;

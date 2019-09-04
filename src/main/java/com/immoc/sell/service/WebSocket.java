@@ -23,7 +23,7 @@ public class WebSocket {
 		webSocketSet.add(this);
 		System.out.println("有新的连接 总数：" + webSocketSet.size());
 		// 发送消息测试
-		sendMessage("发送一条消息");
+		sendMessage("发送一条后端消息");
 	}
 
 	@OnClose

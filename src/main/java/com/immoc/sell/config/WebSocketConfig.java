@@ -8,6 +8,6 @@ import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 public class WebSocketConfig {
   @Bean
   public ServerEndpointExporter serverEndPointExporter () {
-    return new ServerEndpointExporter();
+    return new ServerEndpointExporter(); // 返回到AOC中
   }
 }

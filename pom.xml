@@ -63,11 +63,6 @@
 			<artifactId>okhttp</artifactId>
 			<version>4.0.0-RC1</version>
 		</dependency>
-		<dependency>
-			<groupId>com.github.binarywang</groupId>
-			<artifactId>weixin-java-mp</artifactId>
-			<version>3.0.0</version>
-		</dependency>
 		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
